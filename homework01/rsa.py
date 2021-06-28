@@ -20,7 +20,7 @@ def is_prime(n: int) -> bool:
         if n % num == 0:
             return False
     return True
-
+    pass
 
 def gcd(a: int, b: int) -> int:
     """
@@ -37,8 +37,15 @@ def gcd(a: int, b: int) -> int:
             a = a % b
         elif a < b:
             b = b % a
-    return (a + b)
+    return a+b
+    pass
 
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+    return (g, x - (b // a) * y, y)
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
@@ -49,6 +56,11 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     # PUT YOUR CODE HERE
+    g, x, y = egcd(e, phi)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % phi
     pass
 
 
@@ -60,9 +72,11 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # n = pq
     # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
     # PUT YOUR CODE HERE
+    phi = (p-1)*(q-1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
